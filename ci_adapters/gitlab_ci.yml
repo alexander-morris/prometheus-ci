@@ -1,0 +1,48 @@
+stages:
+  - setup
+  - test
+  - build
+  - deploy
+
+variables:
+  GIT_STRATEGY: clone
+
+setup:
+  stage: setup
+  script:
+    - echo "Setting up environment"
+    # Add your setup commands here
+  artifacts:
+    paths:
+      - node_modules/
+      # Add other artifact paths as needed
+
+test:
+  stage: test
+  script:
+    - echo "Running tests"
+    # Add your test commands here
+  dependencies:
+    - setup
+
+build:
+  stage: build
+  script:
+    - echo "Building project"
+    # Add your build commands here
+  artifacts:
+    paths:
+      - dist/
+      # Add other artifact paths as needed
+  dependencies:
+    - test
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying application"
+    # Add your deployment commands here
+  dependencies:
+    - build
+  only:
+    - main 

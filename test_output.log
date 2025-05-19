@@ -1,0 +1,42 @@
+Detecting repository type and settings...
+Detected repository type: generic
+Detected default branch: main
+Preparing to fork actions/starter-workflows with github-actions CI pipeline...
+Site type: jekyll
+Hosting: vercel
+Target branch: main
+Debug: CI Type=github-actions, Site Type=jekyll, Hosting Type=vercel
+Debug: CI_TEMPLATE_INFO first 50 chars: .github/workflows/ci.yml
+name: Jekyll Site CI/CD
+
+...
+Debug: TARGET_FILE after extraction: .github/workflows/ci.yml
+Debug: TEMPLATE_CONTENT first 50 chars: name: Jekyll Site CI/CD
+
+on:
+  push:
+    branches:...
+Forking repository...
+Repository successfully forked to future-fox-fan/starter-workflows
+Waiting for fork to be fully created...
+Debug: TARGET_FILE=.github/workflows/ci.yml
+Debug: Checking for directory structure...
+Debug: Extracting directory path from .github/workflows/ci.yml
+Creating directory structure for CI configuration: .github/workflows
+Debug: Checking if .github/workflows exists in the repository
+Debug: Directory check response: 200
+Adding github-actions CI configuration to .github/workflows/ci.yml...
+Debug: TEMPLATE_CONTENT length:     1447 characters
+Debug: ENCODED_CONTENT length:     1933 characters
+Debug: Existing file SHA: 665d3289a953a14b484097158befb82dab888ab1
+Debug: Updating existing file
+Debug: Content path: .github/workflows/ci.yml
+Debug: Commit SHA: 0b2ce59c7873a406e505f2d59ba9bfb3dd832ff0
+Successfully added github-actions configuration to .github/workflows/ci.yml
+Setting up Vercel for branch deployments...
+Setting up Vercel for repository future-fox-fan/starter-workflows...
+Getting Vercel account information...
+Vercel Organization ID: D9lZ6UNq8zZlZJffRcWOZbFi
+Creating Vercel project...
+Error: Failed to create Vercel project
+{"error":{"code":"bad_request","message":"To link a GitHub repository, you need to install the GitHub integration first. Make sure there aren't any typos and that you have access to the repository if it's private.","action":"Install GitHub App","link":"https://github.com/apps/vercel","repo":"starter-workflows"}}

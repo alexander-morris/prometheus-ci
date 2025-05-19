@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Setup') {
+            steps {
+                echo 'Setting up environment'
+                // Add your setup commands here
+                // sh 'npm install'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo 'Running tests'
+                // Add your test commands here
+                // sh 'npm test'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                echo 'Building project'
+                // Add your build commands here
+                // sh 'npm run build'
+            }
+        }
+        
+        stage('Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo 'Deploying application'
+                // Add your deployment commands here
+                // sh 'npm run deploy'
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Pipeline completed'
+            // Clean up workspace
+            // deleteDir()
+        }
+        success {
+            echo 'Pipeline succeeded'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+} 

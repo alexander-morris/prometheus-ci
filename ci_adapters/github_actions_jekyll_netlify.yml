@@ -1,0 +1,63 @@
+name: Jekyll Netlify CI/CD
+
+on:
+  push:
+    branches: [ main, dev, develop, development, feature/* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set branch name
+        id: branch
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          if [[ "$BRANCH_NAME" == "main" ]]; then
+            echo "is_production=true" >> $GITHUB_OUTPUT
+            echo "alias=production" >> $GITHUB_OUTPUT
+          else
+            echo "is_production=false" >> $GITHUB_OUTPUT
+            # Replace slashes with hyphens for valid subdomain names
+            SAFE_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g')
+            echo "alias=$SAFE_BRANCH" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+          
+      - name: Install Jekyll and dependencies
+        run: |
+          gem install jekyll bundler
+          bundle install
+      
+      - name: Build Jekyll site
+        run: |
+          if [[ "${{ steps.branch.outputs.is_production }}" == "true" ]]; then
+            JEKYLL_ENV=production bundle exec jekyll build
+          else
+            JEKYLL_ENV=development bundle exec jekyll build
+          fi
+      
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: './_site'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy Jekyll site from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+          alias: ${{ steps.branch.outputs.alias }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5 

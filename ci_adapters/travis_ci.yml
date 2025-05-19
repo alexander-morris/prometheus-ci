@@ -1,0 +1,40 @@
+language: node_js
+node_js:
+  - "16"
+
+cache:
+  directories:
+    - node_modules
+
+stages:
+  - setup
+  - test
+  - build
+  - deploy
+
+install:
+  - echo "Setting up environment"
+  # Add your setup commands here
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - echo "Running tests"
+        # Add your test commands here
+    
+    - stage: build
+      script:
+        - echo "Building project"
+        # Add your build commands here
+      
+    - stage: deploy
+      if: branch = main
+      script:
+        - echo "Deploying application"
+        # Add your deployment commands here
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always 

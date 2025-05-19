@@ -1,0 +1,73 @@
+image: node:16
+
+definitions:
+  caches:
+    npm: ~/.npm
+
+pipelines:
+  default:
+    - step:
+        name: Setup
+        caches:
+          - npm
+        script:
+          - echo "Setting up environment"
+          # Add your setup commands here
+          # - npm install
+        artifacts:
+          - node_modules/**
+    - step:
+        name: Test
+        caches:
+          - npm
+        script:
+          - echo "Running tests"
+          # Add your test commands here
+          # - npm test
+    - step:
+        name: Build
+        caches:
+          - npm
+        script:
+          - echo "Building project"
+          # Add your build commands here
+          # - npm run build
+        artifacts:
+          - dist/**
+  branches:
+    main:
+      - step:
+          name: Setup
+          caches:
+            - npm
+          script:
+            - echo "Setting up environment"
+            # Add your setup commands here
+            # - npm install
+          artifacts:
+            - node_modules/**
+      - step:
+          name: Test
+          caches:
+            - npm
+          script:
+            - echo "Running tests"
+            # Add your test commands here
+            # - npm test
+      - step:
+          name: Build
+          caches:
+            - npm
+          script:
+            - echo "Building project"
+            # Add your build commands here
+            # - npm run build
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy
+          deployment: production
+          script:
+            - echo "Deploying application"
+            # Add your deployment commands here
+            # - npm run deploy 
